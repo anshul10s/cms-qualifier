@@ -33,11 +33,13 @@ public class QualifierRegistry {
 
     public static Qualifier getQualifier(String qualifierName) throws QualifierException {
         if (StringUtils.isEmpty(qualifierName) || qualifierMap.get(qualifierName) == null) {
+            //ReviewComment: If library initialisation failed at line 26, user will see this exception and will interpret that qualifier is wrong, allthough lib failed to load. Capture a boolean suggesting load was succesful or not and give correct run time error message
             throw new QualifierException("Invalid Qualifier Name : " + qualifierName);
         }
         return qualifierMap.get(qualifierName);
     }
 
+    // ReviewComment: This method is public and returning the handle to modify a private variable, ideally this set return should be immutable
     public static Set<String> getAllQualifiers() {
         return qualifierMap.keySet();
     }
